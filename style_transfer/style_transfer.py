@@ -99,7 +99,7 @@ class StyleTransfer:
         global _iter
         _iter = 0
 
-        def loss_callback(total_loss, content_loss, style_loss):
+        def print_loss_callback(total_loss, content_loss, style_loss):
             global _iter
             print(f'iter: {_iter}, total_loss={total_loss}, content_loss={content_loss}, style_loss={style_loss}')
             _iter +=1
@@ -121,7 +121,7 @@ class StyleTransfer:
                                       self.style_inp: self.style_img_prep
                                       },
                            fetches=[self.total_loss, self.content_loss, self.style_loss],
-                           loss_calback=loss_callback)
+                           loss_callback=print_loss_callback)
 
         # get final result
         final_output_img = self.sess.run(self.output_img)
@@ -180,23 +180,6 @@ def main():
 
     sess.close()
 
-def main2():
-    def print_loss(loss_evaled, vector_evaled):
-        print(loss_evaled, vector_evaled)
-
-    vector = tf.Variable([7., 7.], 'vector')
-    loss = tf.reduce_sum(tf.square(vector))
-
-    optimizer = tf.contrib.opt.ScipyOptimizerInterface(
-        loss, method='L-BFGS-B',
-        options={'maxiter': 100})
-
-    with tf.Session() as session:
-        tf.global_variables_initializer().run()
-        optimizer.minimize(session,
-                           loss_callback=print_loss,
-                           fetches=[loss, vector])
-        print(vector.eval())
 
 if __name__ == '__main__':
     main()

@@ -41,7 +41,7 @@ class GraphSage(nn.Module):
         self.bns = nn.ModuleList([nn.BatchNorm1d(hidden_dim) for hidden_dim in hidden_dims])
 
         self.dropout = nn.Dropout(dropout)
-
+#
         self.relu = nn.ReLU()
 
     def forward(self, features, node_layers, mappings, rows):
